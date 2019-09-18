@@ -1,8 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine
+
+
 db = SQLAlchemy()
-db_string = 'postgres://rtbparnxbzpkfj:7af491d615adeaf621cfcbe7f47c79348ffaa7f9c0da4bf438612c77c43762c4@ec2-54-235-104-136.compute-1.amazonaws.com:5432/daovsp0ht67uql'
-db = create_engine(db_string)
 
 class Access(db.Model):
     id = db.Column(db.Integer, primary_key=True)
