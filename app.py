@@ -41,5 +41,5 @@ class All_Movies(Resource):
     
 api.add_resource(All_Movies, '/values')
 api.add_resource(sigFoxGet,'/sigFoxGet')
-if __name__ == '__main__':
+if __name__ == '__app__':
     app.run(debug=True,host='localhost',port=5000)
