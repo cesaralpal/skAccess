@@ -2,10 +2,10 @@ from flask import Flask
 from flask_restful import Resource, reqparse, Api
 import time
 from datetime import datetime
+from sqlalchemy import create_engine
 
 app = Flask(__name__)
 api = Api(app)
-
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://rtbparnxbzpkfj:7af491d615adeaf621cfcbe7f47c79348ffaa7f9c0da4bf438612c77c43762c4@ec2-54-235-104-136.compute-1.amazonaws.com:5432/daovsp0ht67uql'
 app.config['SECRET_KEY'] = '7af491d615adeaf621cfcbe7f47c79348ffaa7f9c0da4bf438612c77c43762c4'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
