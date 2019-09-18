@@ -8,6 +8,7 @@ drest==0.9.12
 Flask==1.0
 flask-heroku==0.1.9
 Flask-RESTful==0.3.7
+Flask-SQLAlchemy==2.4.0
 gunicorn==19.9.0
 httplib2==0.13.1
 idna==2.8
