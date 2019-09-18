@@ -11,7 +11,6 @@ app.config['SECRET_KEY'] = '7af491d615adeaf621cfcbe7f47c79348ffaa7f9c0da4bf43861
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
 
-heroku = Heroku(app)
 from base import Access, db
 db.init_app(app)
 app.app_context().push()
