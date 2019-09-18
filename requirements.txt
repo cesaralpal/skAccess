@@ -6,6 +6,7 @@ click==6.7
 colorama==0.4.1
 drest==0.9.12
 Flask==1.0
+Flask-Ext==0.1
 flask-heroku==0.1.9
 Flask-RESTful==0.3.7
 Flask-SQLAlchemy==2.4.0
