@@ -64,7 +64,9 @@ class All_Movies(Resource):
         return list(map(lambda x: x.json(), Access.query.all()))
 class DeviceHistory(Resource):
     def get(self):
-        return list(map(lambda x: x.json(), Access.find_by_title(deviceId).all()))
+        args = parser.parse_args()
+
+        return list(map(lambda x: x.json(), Access.find_by_title(args['deviceId']).all()))
 class AllRegister(Resource):
      def get(self):
         return list(map(lambda x: x.json(), AccessHistory.query.all()))
