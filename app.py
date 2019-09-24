@@ -6,8 +6,14 @@ from datetime import datetime
 
 app = Flask(__name__)
 api = Api(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://rtbparnxbzpkfj:7af491d615adeaf621cfcbe7f47c79348ffaa7f9c0da4bf438612c77c43762c4@ec2-54-235-104-136.compute-1.amazonaws.com:5432/daovsp0ht67uql'
-app.config['SECRET_KEY'] = '7af491d615adeaf621cfcbe7f47c79348ffaa7f9c0da4bf438612c77c43762c4'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://rtbparnxbzpkfj:7af491d615adeaf621cfcbe7f47c79348ffaa7f9c0da4bf438612c77c43762c4@ec2-54-235-104-136.compute-1.amazonaws.com:5432/daovsp0ht67uql'
+#app.config['SECRET_KEY'] = '7af491d615adeaf621cfcbe7f47c79348ffaa7f9c0da4bf438612c77c43762c4'
+#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#app.config['PROPAGATE_EXCEPTIONS'] = True
+
+#Setting the location for the sqlite database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///base.db'
+#Adding the configurations for the database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
 
@@ -78,9 +84,10 @@ class All_Movies(Resource):
 class DeviceHistory(Resource):
     def get(self):
         args = parser.parse_args()
-        return list(map(lambda x: x.json(), Access.find_by_title(args['deviceId'].all()))
+        return list(map(lambda x: x.json(), Access.find_by_title(args['deviceId']).all()))
+
 class AllRegister(Resource):
-     def get(self):
+    def get(self):
         return list(map(lambda x: x.json(), AccessHistory.query.all()))
     
 api.add_resource(All_Movies, '/values')
