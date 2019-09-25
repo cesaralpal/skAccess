@@ -6,8 +6,8 @@ from datetime import datetime
 
 app = Flask(__name__)
 api = Api(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://rtbparnxbzpkfj:7af491d615adeaf621cfcbe7f47c79348ffaa7f9c0da4bf438612c77c43762c4@ec2-54-235-104-136.compute-1.amazonaws.com:5432/daovsp0ht67uql'
-app.config['SECRET_KEY'] = '7af491d615adeaf621cfcbe7f47c79348ffaa7f9c0da4bf438612c77c43762c4'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://tequnzjdwbbtfc:bd46fbe1c5e8333076e8df866026fd41551853145dd50c66316f5a11ebf4d7e5@ec2-54-235-167-210.compute-1.amazonaws.com:5432/derhr019c671ph'
+app.config['SECRET_KEY'] = 'bd46fbe1c5e8333076e8df866026fd41551853145dd50c66316f5a11ebf4d7e5'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
 
