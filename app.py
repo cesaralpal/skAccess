@@ -23,6 +23,10 @@ app.app_context().push()
 db.create_all()
 parser = reqparse.RequestParser()
 
+class home(Resource):
+    def get(self):
+        print("Bienvenido a Global Access a donde quiera que estes te comunicamos con el mundo.")
+
 
 class sigFoxGet(Resource):
     def get(self):
@@ -93,6 +97,8 @@ class AllRegister(Resource):
 api.add_resource(All_Movies, '/values')
 api.add_resource(sigFoxGet,'/sigFoxGet')
 api.add_resource(AllRegister, '/history')
+api.add_resource(home, '/')
+
 
 if __name__ == '__main__':
     app.run(debug=True,host='localhost',port=5000)
