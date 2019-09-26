@@ -25,7 +25,7 @@ parser = reqparse.RequestParser()
 
 class home(Resource):
     def get(self):
-        print("Bienvenido a Global Access a donde quiera que estes te comunicamos con el mundo.")
+        return "Bienvenido a Global Access a donde quiera que estes te comunicamos con el mundo."
 
 
 class sigFoxGet(Resource):
