@@ -6,16 +6,16 @@ from datetime import datetime
 
 app = Flask(__name__)
 api = Api(app)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://tequnzjdwbbtfc:bd46fbe1c5e8333076e8df866026fd41551853145dd50c66316f5a11ebf4d7e5@ec2-54-235-167-210.compute-1.amazonaws.com:5432/derhr019c671ph'
-#app.config['SECRET_KEY'] = 'bd46fbe1c5e8333076e8df866026fd41551853145dd50c66316f5a11ebf4d7e5'
-#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-#app.config['PROPAGATE_EXCEPTIONS'] = True
-
-#Setting the location for the sqlite database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///base.db'
-#Adding the configurations for the database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://tequnzjdwbbtfc:bd46fbe1c5e8333076e8df866026fd41551853145dd50c66316f5a11ebf4d7e5@ec2-54-235-167-210.compute-1.amazonaws.com:5432/derhr019c671ph'
+app.config['SECRET_KEY'] = 'bd46fbe1c5e8333076e8df866026fd41551853145dd50c66316f5a11ebf4d7e5'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
+
+#Setting the location for the sqlite database
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///base.db'
+#Adding the configurations for the database
+#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#app.config['PROPAGATE_EXCEPTIONS'] = True
 
 from base import Access,AccessHistory,db
 db.init_app(app)
