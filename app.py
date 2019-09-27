@@ -23,6 +23,25 @@ app.app_context().push()
 db.create_all()
 parser = reqparse.RequestParser()
 
+#dic_mensajes = {
+  #"Sigma": "0000",
+  #"La": "0001",
+  #"Villita": "0010",
+  #"Noche": "0011",
+  #"Buena": "0000",
+  #"|": "0101",
+  #"Encantados": "0110",
+  #"de": "0111",
+  #"ayudarte": "1100",
+  #"Creemos": "1001",
+  #"en": "1010",
+  #"ti": "1011",
+  #"Promociones": "1000",
+  #"": "1101",
+  #"|": "1110",
+  #"#": "1111",
+#}
+
 class home(Resource):
     def get(self):
         return "Bienvenido a Global Access a donde quiera que estes te comunicamos con el mundo."
@@ -60,30 +79,101 @@ class sigFoxGet(Resource):
             item.save_to()        
             return item.json()
         else:
-            item = Access(args['deviceId'], temperatura, voltaje, corriente, fecha)
-            item.save_to()        
+           # item = Access(args['deviceId'], temperatura, voltaje, corriente, fecha)
+           # item.save_to()        
             return item.json()
         
+class sigFoxGetDemo(Resource):
+    def get(self):
+        parser.add_argument('deviceId', type=str)
+        parser.add_argument('time', type=int)
+        parser.add_argument('data', type=str)
+        args = parser.parse_args()
+        a = struct.unpack('iii',bytes.fromhex(args['data']))
+        print("este es el contenido",a)
+        datoBajo = a[0]
+        datoMedio = a[1]
+        datoAlto = a[2]
+
+        print(datoBajo)
+
+        print(datoMedio)
+        print(datoAlto)
+        datoBajo = format(datoBajo,"b")
+        print("binario dato bajo",datoBajo,len(datoBajo))
+
+        if(datoBajo=="0"):
+            temperatura = 0
+            corriente = 0
+        else:
+            corriente = datoBajo[len(datoBajo)-7:len(datoBajo)]
+            corriente = int(corriente,2)
+            corriente = corriente/10
+            temperatura = datoBajo[0:len(datoBajo)-8]
+            temperatura = int(temperatura,2)
+            temperatura = temperatura/10
+        
+        print("temperatura y corriente",temperatura,corriente)
+
+
+        datoMedio = format(datoMedio,"b")
+        print(datoMedio)
+        print(len(datoMedio))
+        alerta_alto_voltaje = datoMedio[1:3]
+        alerta_bajo_voltaje_incompleto = datoMedio[0]
+        voltaje = datoMedio[0:len(datoMedio)-1]
+        print(alerta_bajo_voltaje_incompleto)
+        print(alerta_alto_voltaje)
+        voltaje = int(voltaje,2)
+        voltaje = voltaje/10
+        print(voltaje)
+        signo = datoMedio[len(datoMedio)-1]
+        if(signo=="0"):
+            temperatura = temperatura
+        if(signo=="1"):
+            temperatura = temperatura*-1    
+        print(signo)
+        datoAlto = format(datoAlto,"b")
+        print(datoAlto)
+        alerta_puerta_abierta = datoAlto[1:3]
+        alerta_sonda_camara = datoAlto[3:5]
+        alerta_temperatura_no_abate = datoAlto[5:7]
+        alerta_alta_temperatura = datoAlto[7:9]
+        alerta_baja_temperatura = datoAlto[9:11]
+        alerta_sobre_corriente = datoAlto[11:13]
+        alerta_pico_voltaje = datoAlto[13:15]
+        alerta_bajo_voltaje_faltante=datoAlto[15]
+        alerta_bajo_voltaje = alerta_bajo_voltaje_faltante+alerta_bajo_voltaje_incompleto
+        fecha = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(args['time']))
+        print(temperatura,voltaje,corriente,alerta_puerta_abierta,fecha)
+
     
-  #def get(self):
-        #parser.add_argument('deviceId', type=str)
-        #parser.add_argument('time', type=int)
-        #parser.add_argument('data', type=str)
-
-
-        #args = parser.parse_args()
-        #fecha = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(args['time']))
-        #temperatura = bytes.fromhex(args['data']).decode('utf-8')
-        #item = Access(args['deviceId'], temperatura, fecha)
-        #print("La temperatura es"+ temperatura)
-        #print("La fecha es" + fecha)
-        #item.save_to()
-        #return item.json()
+        #itemb2 = AccessHistory(args['deviceId'], str(temperatura),str(voltaje),str(corriente), fecha)
+        #itemb2.save_to()
+        item = Access.find_by_title(args['deviceId'])        
+        if item:            
+            item.temperatura = temperatura
+            item.voltaje = voltaje
+            item.corriente = corriente 
+            item.puerta_abierta = alerta_puerta_abierta
+            item.time = fecha            
+            item.save_to()        
+            return item.json()
+        else:
+            item = Access(args['deviceId'], temperatura,voltaje,corriente,alerta_puerta_abierta,fecha)
+            item.save_to()        
+            return item.json()       
 
 
 class downlink(Resource):
     def get(self):
-        return {'4D5B99' : { "downlinkData" : "deadbeefcafebabe"}}
+        parser.add_argument('mensaje', type=str)
+        args = parser.parse_args()
+        mensaje_a_enviar = args['mensaje']
+        valor_cadena = len(args['mensaje'])
+        #for valor_cadena in dic_mensajes
+           # mensaje_a_enviar[valor_cadena]
+        return {"4D5B99" :{ "downlinkData" : "deadbeefcafebabe"}}
 
 class All_Movies(Resource):
     def get(self):
@@ -99,6 +189,7 @@ class AllRegister(Resource):
     
 api.add_resource(All_Movies, '/values')
 api.add_resource(sigFoxGet,'/sigFoxGet')
+api.add_resource(sigFoxGetDemo,'/sigFoxGetDemo')
 api.add_resource(AllRegister, '/history')
 api.add_resource(home, '/')
 api.add_resource(downlink, '/downlink')
