@@ -103,8 +103,11 @@ class sigFoxGetDemo(Resource):
         print("binario dato bajo",datoBajo,len(datoBajo))
 
         if(datoBajo=="0"):
-            temperatura = 0
+            temperatura = 0.0
             corriente = 0
+        if(len(datoBajo)==8):
+            temperatura=0.0
+            corriente =0.0
         else:
             corriente = datoBajo[len(datoBajo)-7:len(datoBajo)]
             corriente = int(corriente,2)
