@@ -68,8 +68,8 @@ class sigFoxGet(Resource):
         #temperatura = bytes.fromhex(args['data']).decode('utf-8')
         print("La temperatura es", temperatura)
         print("La fecha es", fecha)
-        itemb2 = AccessHistory(args['deviceId'], temperatura, voltaje, corriente, fecha)
-        itemb2.save_to()
+        #itemb2 = AccessHistory(args['deviceId'], temperatura, voltaje, corriente, fecha)
+        #itemb2.save_to()
         item = Access.find_by_title(args['deviceId'])        
         if item:            
             item.temperatura = temperatura
