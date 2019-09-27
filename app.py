@@ -6,16 +6,16 @@ from datetime import datetime
 
 app = Flask(__name__)
 api = Api(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://tequnzjdwbbtfc:bd46fbe1c5e8333076e8df866026fd41551853145dd50c66316f5a11ebf4d7e5@ec2-54-235-167-210.compute-1.amazonaws.com:5432/derhr019c671ph'
-app.config['SECRET_KEY'] = 'bd46fbe1c5e8333076e8df866026fd41551853145dd50c66316f5a11ebf4d7e5'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['PROPAGATE_EXCEPTIONS'] = True
-
-#Setting the location for the sqlite database
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///base.db'
-#Adding the configurations for the database
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://tequnzjdwbbtfc:bd46fbe1c5e8333076e8df866026fd41551853145dd50c66316f5a11ebf4d7e5@ec2-54-235-167-210.compute-1.amazonaws.com:5432/derhr019c671ph'
+#app.config['SECRET_KEY'] = 'bd46fbe1c5e8333076e8df866026fd41551853145dd50c66316f5a11ebf4d7e5'
 #app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #app.config['PROPAGATE_EXCEPTIONS'] = True
+
+#Setting the location for the sqlite database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///base.db'
+#Adding the configurations for the database
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['PROPAGATE_EXCEPTIONS'] = True
 
 from base import Access,AccessHistory,db
 db.init_app(app)
@@ -119,13 +119,14 @@ class sigFoxGetDemo(Resource):
         datoMedio = format(datoMedio,"b")
         print(datoMedio)
         print(len(datoMedio))
-        alerta_alto_voltaje = datoMedio[1:3]
-        alerta_bajo_voltaje_incompleto = datoMedio[0]
-        voltaje = datoMedio[0:len(datoMedio)-1]
-        print(alerta_bajo_voltaje_incompleto)
-        print(alerta_alto_voltaje)
-        voltaje = int(voltaje,2)
-        voltaje = voltaje/10
+        if(len(datoMedio)==1):
+            voltaje = 0.0
+            signo="0"
+        else:
+            voltaje = datoMedio[0:len(datoMedio)-1]
+            voltaje = int(voltaje,2)
+            voltaje = voltaje/10
+
         print(voltaje)
         signo = datoMedio[len(datoMedio)-1]
         if(signo=="0"):
@@ -136,14 +137,6 @@ class sigFoxGetDemo(Resource):
         datoAlto = format(datoAlto,"b")
         print(datoAlto)
         alerta_puerta_abierta = datoAlto[1:3]
-        alerta_sonda_camara = datoAlto[3:5]
-        alerta_temperatura_no_abate = datoAlto[5:7]
-        alerta_alta_temperatura = datoAlto[7:9]
-        alerta_baja_temperatura = datoAlto[9:11]
-        alerta_sobre_corriente = datoAlto[11:13]
-        alerta_pico_voltaje = datoAlto[13:15]
-        alerta_bajo_voltaje_faltante=datoAlto[15]
-        alerta_bajo_voltaje = alerta_bajo_voltaje_faltante+alerta_bajo_voltaje_incompleto
         fecha = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(args['time']))
         print(temperatura,voltaje,corriente,alerta_puerta_abierta,fecha)
 
