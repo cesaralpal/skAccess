@@ -11,7 +11,7 @@ class Access(db.Model):
     puerta_abierta = db.Column(db.String(30), unique=False, nullable=False)
     time = db.Column(db.String(30), unique=False, nullable=False)
     
-    def __init__(self, deviceId, temperatura, voltaje, corriente, time, puerta_abierta):
+    def __init__(self, deviceId, temperatura, voltaje, corriente, puerta_abierta, time):
         self.deviceId = deviceId
         self.temperatura = temperatura
         self.voltaje = voltaje
