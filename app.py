@@ -81,7 +81,10 @@ class sigFoxGet(Resource):
         #return item.json()
 
 
-        
+class downlink(Resource):
+    def get(self):
+        return {'4D5B99' : { "downlinkData" : "deadbeefcafebabe"}}
+
 class All_Movies(Resource):
     def get(self):
         return list(map(lambda x: x.json(), Access.query.all()))
@@ -98,6 +101,7 @@ api.add_resource(All_Movies, '/values')
 api.add_resource(sigFoxGet,'/sigFoxGet')
 api.add_resource(AllRegister, '/history')
 api.add_resource(home, '/')
+api.add_resource(downlink, '/downlink')
 
 
 if __name__ == '__main__':
